@@ -1,0 +1,288 @@
+---
+- hosts: nftk1
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi-toolkit
+      nftk:
+        version: "1.2.0"
+        packaging_bin: "tar.gz"
+        packaging_src: "zip"
+        action:
+          clean:
+            installation: false
+            repository: false
+            dependencies: false
+          install: true
+          run_cmd: true
+          sync: true
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nftk_run:
+        cmd: "standalone -n '{{ _nftk_hostname }}.{{ _nftk_domain }}' --nifiDnSuffix ',{{ _nftk_dn_suffix }}' -C '{{ _nftk_client_cert_dn }}' -O -c 'nftk1_ca'"
+        clientpasswd: "{{ _nftk_run_clientpasswd }}"
+        keypasswd: "{{ _nftk_run_keypasswd }}"
+        truststorepasswd: "{{ _nftk_run_truststorepasswd }}"
+        keystorepasswd: "{{ _nftk_run_keystorepasswd }}"
+      nftk_cfg.dir_repo: "nftk_repo"
+      nftk_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"
+
+- hosts: nf1
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi
+      nifi:
+        version: "1.2.0"
+        packaging_bin: "tar.gz"
+        packaging_src: "zip"
+        action:
+          clean:
+            installer: false
+            installation: false
+            dependencies: false
+          install: true
+          run: true
+        deployment:
+          mode: "http"
+          tls_toolkit:
+            shared_dir_local: "/Users/Chilcano/1github-repo/binaries"
+            hostname: ""
+            dir_repo: ""
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nifi_conf_authorizers:
+        initial_admin_identity: ""
+        nf_hostname_pattern: ""
+        nf_domain: ""
+        nf_dn_suffix: ""
+      nifi_properties_j2:
+        nifi.remote.input.host: ""
+        nifi.remote.input.secure: false
+        nifi.remote.input.socket.port:
+        nifi.web.http.host: ""
+        nifi.web.http.port: 8080
+        nifi.web.https.host: ""
+        nifi.web.https.port:
+        nifi.security.keystore: ""
+        nifi.security.keystoreType: ""
+        nifi.security.keystorePasswd: ""
+        nifi.security.keyPasswd: ""
+        nifi.security.truststore: ""
+        nifi.security.truststoreType: ""
+        nifi.security.truststorePasswd: ""
+        nifi.security.user.authorizer: ""
+        nifi.security.user.login.identity.provider: ""
+        nifi.cluster.protocol.is.secure: false
+        nifi.cluster.node.address: ""
+        nifi.cluster.node.protocol.port:
+
+- hosts: nf2
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi
+      nifi:
+        action:
+          clean:
+            installer: false
+            installation: false
+            dependencies: false
+          install: true
+          run: true
+        deployment:
+          mode: "https"
+          tls_toolkit:
+            shared_dir_local: "/Users/Chilcano/1github-repo/binaries"
+            hostname: "nftk1"
+            dir_repo: "nifi-toolkit_repo"
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nifi_conf_authorizers:
+        initial_admin_identity: "{{ _nftk_client_cert_dn }}"
+        nf_hostname_pattern: "{{ _nftk_hostname }}"
+        nf_domain: "{{ _nftk_domain }}"
+        nf_dn_suffix: "{{ _nftk_dn_suffix }}"
+      nifi_properties_j2:
+        nifi.remote.input.host: ""
+        nifi.remote.input.secure: true
+        nifi.remote.input.socket.port: 10443
+        nifi.web.http.host: ""
+        nifi.web.http.port:
+        nifi.web.https.host: ""
+        nifi.web.https.port: 9443
+        nifi.security.keystore: ./conf/keystore.jks
+        nifi.security.keystoreType: jks
+        nifi.security.keystorePasswd: "{{ _nftk_run_keystorepasswd }}"
+        nifi.security.keyPasswd: "{{ _nftk_run_keypasswd }}"
+        nifi.security.truststore: ./conf/truststore.jks
+        nifi.security.truststoreType: jks
+        nifi.security.truststorePasswd: "{{ _nftk_run_truststorepasswd }}"
+        nifi.security.user.authorizer: "file-provider"
+        nifi.security.user.login.identity.provider: ""
+        nifi.cluster.protocol.is.secure: true
+        nifi.cluster.node.address: ""
+        nifi.cluster.node.protocol.port: 11443
+
+- hosts: nf3
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi
+      nifi:
+        action:
+          clean:
+            installer: false
+            installation: false
+            dependencies: false
+          install: true
+          run: true
+        deployment:
+          mode: "tls_toolkit"
+          tls_toolkit:
+            shared_dir_local: "/Users/Chilcano/1github-repo/binaries"
+            hostname: "nftk1"
+            dir_repo: "nifi-toolkit_repo"
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nifi_conf_authorizers:
+        initial_admin_identity: "{{ _nftk_client_cert_dn }}"
+        nf_hostname_pattern: "{{ _nftk_hostname }}"
+        nf_domain: "{{ _nftk_domain }}"
+        nf_dn_suffix: "{{ _nftk_dn_suffix }}"
+      nifi_properties_j2:
+        nifi.remote.input.host: ""
+        nifi.remote.input.secure: true
+        nifi.remote.input.socket.port: 10443
+        nifi.web.http.host: ""
+        nifi.web.http.port:
+        nifi.web.https.host: ""
+        nifi.web.https.port: 9443
+        nifi.security.keystore: ./conf/keystore.jks
+        nifi.security.keystoreType: jks
+        nifi.security.keystorePasswd: "{{ _nftk_run_keystorepasswd }}"
+        nifi.security.keyPasswd: "{{ _nftk_run_keypasswd }}"
+        nifi.security.truststore: ./conf/truststore.jks
+        nifi.security.truststoreType: jks
+        nifi.security.truststorePasswd: "{{ _nftk_run_truststorepasswd }}"
+        nifi.security.user.authorizer: "file-provider"
+        nifi.security.user.login.identity.provider: ""
+        nifi.cluster.protocol.is.secure: true
+        nifi.cluster.node.address: ""
+        nifi.cluster.node.protocol.port: 11443
+
+- hosts: nf4
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi
+      nifi:
+        action:
+          clean:
+            installer: false
+            installation: false
+            dependencies: false
+          install: true
+          run: true
+        deployment:
+          mode: "tls_toolkit"
+          tls_toolkit:
+            shared_dir_local: "/Users/Chilcano/1github-repo/binaries"
+            hostname: "nftk1"
+            dir_repo: "nifi-toolkit_repo"
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nifi_conf_authorizers:
+        initial_admin_identity: "{{ _nftk_client_cert_dn }}"
+        nf_hostname_pattern: "{{ _nftk_hostname }}"
+        nf_domain: "{{ _nftk_domain }}"
+        nf_dn_suffix: "{{ _nftk_dn_suffix }}"
+      nifi_properties_j2:
+        nifi.remote.input.host: ""
+        nifi.web.https.host: ""
+        nifi.cluster.node.address: ""
+
+- hosts: nf5
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - role: ../../playbooks/roles/ansible-role-java
+      java_packages:
+        - oracle-java8-installer
+        - ca-certificates
+        - oracle-java8-set-default
+      java_cleanup: false
+      java_home: "/usr/lib/jvm/java-8-oracle"
+
+    - role: chilcano.apache-nifi
+      nifi:
+        action:
+          clean:
+            installer: false
+            installation: false
+            dependencies: false
+          install: true
+          run: true
+        deployment:
+          mode: "tls_toolkit"
+          tls_toolkit:
+            shared_dir_local: "/Users/Chilcano/1github-repo/binaries"
+            hostname: "nftk1"
+            dir_repo: "nifi-toolkit_repo"
+        download:
+          http_uri: "http://mirror.ox.ac.uk/sites/rsync.apache.org"
+      nifi_conf_authorizers:
+        initial_admin_identity: "{{ _nftk_client_cert_dn }}"
+        nf_hostname_pattern: "{{ _nftk_hostname }}"
+        nf_domain: "{{ _nftk_domain }}"
+        nf_dn_suffix: "{{ _nftk_dn_suffix }}"
+      nifi_properties_j2:
+        nifi.remote.input.host: ""
+        nifi.web.https.host: ""
+        nifi.cluster.node.address: ""

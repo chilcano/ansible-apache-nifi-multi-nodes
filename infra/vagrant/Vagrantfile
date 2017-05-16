@@ -1,0 +1,113 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+# Use config.yml values for some configuration.
+require 'yaml'
+unless File.exist?("config.yml")
+  raise 'Configuration (config.yml) file not found.'
+end
+vconfig = YAML.load_file("config.yml")
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "debian/jessie64"
+  config.ssh.insert_key = false
+
+  # Set order so virtualbox provider is used unless overridden.
+  config.vm.provider "virtualbox"
+  config.vm.provider "vmware_fusion"
+
+
+  # NiFi Toolkit 1.
+  config.vm.define "nftk1" do |nftk1|
+    nftk1.vm.network :private_network, ip: "192.168.77.4"
+
+    # VirtualBox.
+    nftk1.vm.hostname = "nftk1." + vconfig['site_url']
+    nftk1.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nftk1." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+  end
+
+  # NiFi 5.
+  config.vm.define "nf5" do |nf5|
+    nf5.vm.network :private_network, ip: "192.168.77.9"
+
+    # VirtualBox.
+    nf5.vm.hostname = "nf5." + vconfig['site_url']
+    nf5.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nf5." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+  end
+
+  # NiFi 4.
+  config.vm.define "nf4" do |nf4|
+    nf4.vm.network :private_network, ip: "192.168.77.8"
+
+    # VirtualBox.
+    nf4.vm.hostname = "nf4." + vconfig['site_url']
+    nf4.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nf4." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+  end
+
+  # NiFi 3.
+  config.vm.define "nf3" do |nf3|
+    nf3.vm.network :private_network, ip: "192.168.77.7"
+
+    # VirtualBox.
+    nf3.vm.hostname = "nf3." + vconfig['site_url']
+    nf3.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nf3." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+  end
+
+  # NiFi 2.
+  config.vm.define "nf2" do |nf2|
+    nf2.vm.network :private_network, ip: "192.168.77.6"
+
+    # VirtualBox.
+    nf2.vm.hostname = "nf2." + vconfig['site_url']
+    nf2.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nf2." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+  end
+
+  # NiFi 1.
+  config.vm.define "nf1" do |nf1|
+    nf1.vm.network :private_network, ip: "192.168.77.5"
+
+    # VirtualBox.
+    nf1.vm.hostname = "nf1." + vconfig['site_url']
+    nf1.vm.provider :virtualbox do |v|
+      v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+      v.name = "nf1." + vconfig['site_url']
+      v.memory = 1024
+      v.cpus = 1
+    end
+
+    # Run ansible provisioner for all VMs at the end.
+    nf1.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../../playbooks/main.yml"
+      ansible.inventory_path = "../../playbooks/inventory"
+      ansible.limit = "all"
+    end
+  end
+
+end

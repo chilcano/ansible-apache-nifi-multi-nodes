@@ -1,0 +1,9 @@
+---
+_nftk_domain: "intix.info"
+_nftk_hostname: "nf[1-5]"
+_nftk_dn_suffix: "OU=INTIX"
+_nftk_client_cert_dn: "CN=chilcano, {{ _nftk_dn_suffix }}"
+_nftk_run_clientpasswd: demo00a
+_nftk_run_keypasswd: demo00b
+_nftk_run_truststorepasswd: demo00c
+_nftk_run_keystorepasswd: demo00d
