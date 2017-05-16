@@ -81,4 +81,10 @@ The `Client Certificate` only is required when connecting to `nf2, nf3, nf4` and
 
 ![Open NiFi from Firefox](https://github.com/chilcano/ansible-apache-nifi-multi-nodes/blob/master/nifi-multi-node-browser-all.png "Open NiFi from Firefox")
 
+## ToDo
+
+1. Improve the Ansible Role `chilcano.apache-nifi` to implement Cluster Status coordination through `Apache ZooKeeper`.
+2. Improve the Ansible Role `chilcano.apache-nifi-toolkit` to implement Client/Server mode.
+3. Deploy a sample DataFlow in NiFi.
+
 End.
