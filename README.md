@@ -71,13 +71,15 @@ above with their current state. For more information about a specific
 VM, run `vagrant status NAME`.
 ```
 
-Now we can verify if all instances are running as expected, before we have to install the  `Client Certificate` (_CN=chilcano_OU=INTIX.p12_) generated in our browser.
+Now we can verify if all instances are running as expected, before we have to install the `Client Certificate` (_CN=chilcano_OU=INTIX.p12_) generated in our browser.
 
 ![Install the Client Certificate](https://github.com/chilcano/ansible-apache-nifi-multi-nodes/blob/master/nifi-multi-node-client-cert-1install.png "Install the Client Certificate")
 
+The `Client Certificate` only is required when connecting to `nf2, nf3, nf4` and `nf5` because these instances are running over HTTPS with Mutual SSL/TLS Authentication (based on Client Certificate).
+
 ![Select the Client Certificate](https://github.com/chilcano/ansible-apache-nifi-multi-nodes/blob/master/nifi-multi-node-client-cert-1select.png "Select the Client Certificate")
 
-The `Client Certificate` only is required when connecting to `nf2, nf3, nf4` and `nf5` because these instances are running over HTTPS with Mutual SSL/TLS Authentication (based on Client Certificate).
+Open the URL (http://nf1:8080/nifi, http://nf2:9443/nifi, http://nf3:9443/nifi, http://nf4:9443/nifi and http://nf5:9443/nifi) from Firefox. Instead of hostname you can use the IP address (see `inventory` file).
 
 ![Open NiFi from Firefox](https://github.com/chilcano/ansible-apache-nifi-multi-nodes/blob/master/nifi-multi-node-browser-all.png "Open NiFi from Firefox")
 
