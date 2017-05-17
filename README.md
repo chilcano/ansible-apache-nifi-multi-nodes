@@ -1,4 +1,4 @@
-# Apache NiFi and NiFi Toolkit Ansible Roles to create a multi-node secure NiFi cluster.
+# Apache NiFi and TLS Toolkit Ansible Roles to create a multi-node secure NiFi cluster.
 
 I've created 2 Ansible Roles ([chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) and [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit)) to automate the creation of a multi-node and secure NiFi cluster.
 
