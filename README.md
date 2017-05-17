@@ -1,14 +1,14 @@
 # Apache NiFi and NiFi Toolkit Ansible Roles to create a multi-node secure NiFi cluster.
 
-I've created 2 Ansible Roles ((chilcano.apache-nifi)[https://galaxy.ansible.com/chilcano/apache-nifi] and (chilcano.apache-nifi-toolkit)[https://galaxy.ansible.com/chilcano/apache-nifi-toolkit]) to automate the creation of a multi-node and secure NiFi cluster.
+I've created 2 Ansible Roles ([chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) and [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit)) to automate the creation of a multi-node and secure NiFi cluster.
 
-At the moment, the (chilcano.apache-nifi)[https://galaxy.ansible.com/chilcano/apache-nifi] Ansible Role doesn't implement (Cluster State coordination)[https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#state_management] through Apache ZooKeeper. It will be implemented in the next version of this Ansible Role.
+At the moment, the [chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) Ansible Role doesn't implement [Cluster State coordination](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#state_management) through Apache ZooKeeper. It will be implemented in the next version of this Ansible Role.
 
-For other side, I've implemented only (TLS Toolkit Standalone mode)[https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#tls-generation-toolkit] in the (chilcano.apache-nifi-toolkit)[https://galaxy.ansible.com/chilcano/apache-nifi-toolkit] Ansible Role.
+For other side, I've implemented only [TLS Toolkit Standalone mode](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#tls-generation-toolkit) in the [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit) Ansible Role.
 
 Further details and samples about both Ansible Roles can be found at Ansible Galaxy:
-- (chilcano.apache-nifi-toolkit)[https://galaxy.ansible.com/chilcano/apache-nifi-toolkit]
-- (chilcano.apache-nifi)[https://galaxy.ansible.com/chilcano/apache-nifi]
+- [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit)
+- [chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi)
 
 Once presented both Ansible Roles, I'm going to explain how to automate the creation of several instances of Apache NiFi, secure and not secure. See image below:
 
