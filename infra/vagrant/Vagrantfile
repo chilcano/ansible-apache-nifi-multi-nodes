@@ -105,7 +105,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Run ansible provisioner for all VMs at the end.
     nf1.vm.provision "ansible" do |ansible|
       ansible.playbook = "../../playbooks/main.yml"
-      ansible.inventory_path = "../../playbooks/inventory"
+      ansible.inventory_path = "../../inventory"
       ansible.limit = "all"
     end
   end

@@ -94,6 +94,7 @@
         nifi.cluster.protocol.is.secure: false
         nifi.cluster.node.address: ""
         nifi.cluster.node.protocol.port:
+      nifi_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"
 
 - hosts: nf2
   become: yes
@@ -150,6 +151,7 @@
         nifi.cluster.protocol.is.secure: true
         nifi.cluster.node.address: ""
         nifi.cluster.node.protocol.port: 11443
+      nifi_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"
 
 - hosts: nf3
   become: yes
@@ -206,6 +208,7 @@
         nifi.cluster.protocol.is.secure: true
         nifi.cluster.node.address: ""
         nifi.cluster.node.protocol.port: 11443
+      nifi_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"
 
 - hosts: nf4
   become: yes
@@ -246,6 +249,7 @@
         nifi.remote.input.host: ""
         nifi.web.https.host: ""
         nifi.cluster.node.address: ""
+      nifi_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"
 
 - hosts: nf5
   become: yes
@@ -286,3 +290,4 @@
         nifi.remote.input.host: ""
         nifi.web.https.host: ""
         nifi.cluster.node.address: ""
+      nifi_sync_dir_local: "/Users/Chilcano/1github-repo/binaries"

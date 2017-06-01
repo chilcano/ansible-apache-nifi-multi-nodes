@@ -22,3 +22,4 @@ nf5 ansible_host=192.168.77.9
 
 [nifis:vars]
 ansible_user=vagrant
+ansible_ssh_private_key_file="/Users/Chilcano/.vagrant.d/insecure_private_key"
