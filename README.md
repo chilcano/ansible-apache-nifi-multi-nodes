@@ -1,5 +1,15 @@
 # Apache NiFi and TLS Toolkit Ansible Roles to create a multi-node secure NiFi cluster.
 
+## Changelog
+
+1. The Ansible Roles ([chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) and [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit)) copy installer/binary for NiFi and Toolkit from/to local to/from remote. To do that, the [synchronize](http://docs.ansible.com/ansible/synchronize_module.html) Ansible module was used instead of [fetch](http://docs.ansible.com/ansible/fetch_module.html) Ansible module in order to move bigger files.
+
+## ToDo
+
+1. Improve the Ansible Role `chilcano.apache-nifi` to implement Cluster Status coordination through `Apache ZooKeeper`.
+2. Improve the Ansible Role `chilcano.apache-nifi-toolkit` to implement Client/Server mode.
+3. Deploy a sample DataFlow in NiFi.
+
 I've created 2 Ansible Roles ([chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) and [chilcano.apache-nifi-toolkit](https://galaxy.ansible.com/chilcano/apache-nifi-toolkit)) to automate the creation of a multi-node and secure NiFi cluster.
 
 At the moment, the [chilcano.apache-nifi](https://galaxy.ansible.com/chilcano/apache-nifi) Ansible Role doesn't implement [Cluster State coordination](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#state_management) through Apache ZooKeeper. It will be implemented in the next version of this Ansible Role.
@@ -83,10 +93,5 @@ Open the URL (http://nf1:8080/nifi, http://nf2:9443/nifi, http://nf3:9443/nifi, 
 
 ![Open NiFi from Firefox](https://github.com/chilcano/ansible-apache-nifi-multi-nodes/blob/master/nifi-multi-node-browser-all.png "Open NiFi from Firefox")
 
-## ToDo
-
-1. Improve the Ansible Role `chilcano.apache-nifi` to implement Cluster Status coordination through `Apache ZooKeeper`.
-2. Improve the Ansible Role `chilcano.apache-nifi-toolkit` to implement Client/Server mode.
-3. Deploy a sample DataFlow in NiFi.
 
 End.
